@@ -5,7 +5,7 @@ import requests
 
 def call_external_api(request):
     # URL de l'API REST
-    url = "https://fhir.alliance4u.io/swagger/"
+    url = "https://fhir.alliance4u.io/swagger/#/observation/search-Observation"
     
     # Effectuer la requête GET vers l'API
     try:
@@ -18,4 +18,4 @@ def call_external_api(request):
         return render(request, 'error.html', {'message': f'Other error occurred: {err}'})
 
     # Passer les données reçues à un template
-    return render(request, 'data.html', {'data': data})
+    return render(request, 'accueil.html', {'data': data})
