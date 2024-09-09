@@ -1,11 +1,11 @@
-import requests
 from django.shortcuts import render
+import requests
 
 
 
 def call_external_api(request):
     # URL de l'API REST
-    url = "https://api.example.com/data"
+    url = "https://fhir.alliance4u.io/swagger/"
     
     # Effectuer la requête GET vers l'API
     try:
