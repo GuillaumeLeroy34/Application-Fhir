@@ -1,12 +1,13 @@
 <html>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/accueil.css' %}">
+<link rel="shortcut icon" type="images/favicon.ico" href="{% static 'images/favicon.ico' %}" >
 <header>
 
 </header>
 
 <div>
-<h1>Titre</h1>
+<h1>Nutri Track</h1>
 <a href="{% url "observations" %}">observations (lien temporaire)</a>
 <a href="{% url "connexion" %}">connexion (lien temporaire) </a>
 
@@ -22,12 +23,16 @@
     <div class=inputunit>
     <label for="Prenom">Prenom</label>
     <input type="text" id="Prenom" name="Prenom" />
-</div>
+    </div>
 
     <div class=inputunit>
     <label for="datenaissance">Date de Naissance</label>
     <input type="datenaissance" name="datenaissance" id="datenaissance" />
-    <input type="submit" value="inscription">
+    </div>
+    <div class=inputunit>
+    <input class="button" type="submit" value="Inscription">
+    </div>
+
 </form>
 
 
