@@ -219,7 +219,8 @@ def login_view(request):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
-                
+             pass           
     else:
+
         form = AuthenticationForm()
     return render(request, 'app_fhir/connexion.html', {'form': form})
