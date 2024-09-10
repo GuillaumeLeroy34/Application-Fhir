@@ -35,8 +35,11 @@ def call_external_api(request):
    
 #post une observation: observer la doc, ne pas oublier d'inclure l'identifiant du patient connecté
 def envoi_observations(request):
-    payload={}
-    headers={}
+    payloadWeight= {}
+    payloadHeight = {}
+    headers = {}
+    retour_reponse = ""
+    date_aware = ""
     url = "https://fhir.alliance4u.io/api/observation"
     context = {}
     if request.method == 'POST':
@@ -123,9 +126,9 @@ def envoi_observations(request):
   }
 }
     
-        payloadHeight= {
-            
+        payloadHeight= { 
   "resourceType" : "Observation",
+  
   "id" : "217215f2",
   "meta" : {
     "profile" : [
@@ -173,6 +176,7 @@ def envoi_observations(request):
     ]
   },
   "subject" : {
+    "reference":"Patient/66df16de99cb8a001240f329",
     "display" : "Dominique"
   },
   "encounter" : {
@@ -185,9 +189,7 @@ def envoi_observations(request):
     "system" : "http://unitsofmeasure.org",
     "code" : "cm"
   }
-}
-        
-    
+}    
     responseWeight = requests.post(url, json=payloadWeight,headers=headers)
     if responseWeight.status_code == 200:
         retour_reponse = responseWeight.text
