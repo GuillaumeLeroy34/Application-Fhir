@@ -5,7 +5,9 @@ import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
-
+from django.conf import settings
+from .forms import CustomUserCreationForm
+from .models import Patient
 url = 'https://fhir.alliance4u.io/api/'
 #adresse de l'api qu'on utilise pour faire transiter les données
 
@@ -213,13 +215,60 @@ def envoi_observations(request):
 def navigation(request):
     return render(request, 'app_fhir/navigation.html')
   
+ 
+  
+
 def register(request):
+    url = 'https://fhir.alliance4u.io/api/patient'
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save the new user
-            login(request, user)  # Optionally log in the user after registration
-            return redirect('home')  # Redirect to a different page after successful registration
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            date_naissance = form.cleaned_data.get('date_naissance')
+            genre = form.cleaned_data.get('genre')
+            password = form.cleaned_data.get('password1') 
+            payload = {
+              "resourceType": "Patient",
+
+              "name": [
+                {
+                  "use": "official",
+                  "family": last_name,
+                  "given": [
+                    first_name
+                  ]
+                },
+              ],
+              'gender': 'male' if form.cleaned_data.get('genre') == 'Male' else 'female',
+              "birthDate": str(date_naissance)  
+            }
+            try :
+              response = requests.post(url,json = payload)
+              print(response.text)
+              response_data = response.json()
+              if response.status_code == 200 and 'id' in response_data:
+                patient_id = response_data['id']
+              
+                user = Patient.objects.create_user(
+                            username=username,
+                            email=email,
+                            first_name=first_name,
+                            last_name=last_name,
+                            date_naissance=date_naissance,
+                            patientId=patient_id,  # Use the patient_id from the external API
+                            password=password  # Create the user with the password
+                        )
+                user.save()
+              else:
+                      form.add_error(None, 'Failed to create patient. Please try again.')
+                      
+            except requests.RequestException as e: 
+              form.add_error(None, 'An error occurred while contacting the external API.')
+              print(f"API Error: {e}")
+              
     else:
         form = CustomUserCreationForm()
     
