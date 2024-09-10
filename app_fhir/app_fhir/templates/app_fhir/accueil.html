@@ -1,4 +1,6 @@
 <html>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/accueil.css' %}">
 <header>
 
 </header>
@@ -6,22 +8,31 @@
 <div>
 <h1>Titre</h1>
 <a href="{% url "observations" %}">observations (lien temporaire)</a>
- {{ data }}
+
 
 <hr>
 
 <h1>Inscription</h1>
 <form id='inscription' name='inscription'>
-    <label for="nom">nom</label>
-    <input type="number" id="nom" name="nom" />
+    <div class=inputunit>
+    <label for="nom">Nom</label>
+    <input type="text" id="nom" name="nom" />
+    </div>
 
+    <div class=inputunit>
     <label for="Prenom">Prenom</label>
-    <input type="number" id="Prenom" name="Prenom" />
+    <input type="text" id="Prenom" name="Prenom" />
+</div>
 
-    <label for="datenaissance">date de naissance</label>
+    <div class=inputunit>
+    <label for="datenaissance">Date de Naissance</label>
     <input type="datenaissance" name="datenaissance" id="datenaissance" />
     <input type="submit" value="inscription">
+
 </form>
+<div class=button>
+<button>S'inscrire!</button>
+</div>
 
 </div>
 
