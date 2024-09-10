@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.call_external_api,name='accueil'),
     path('observations',views.envoi_observations,name='observations'),
-    path('connexion',views.login_view,name="connexion")
+    path('connexion',views.login_view,name="connexion"),
+    path('inscription', views.register,name= "inscription"),
 ]

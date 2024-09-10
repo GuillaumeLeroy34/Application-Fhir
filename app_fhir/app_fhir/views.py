@@ -4,7 +4,7 @@ from django.utils import timezone
 import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-
+from .forms import CustomUserCreationForm
 
 url = 'https://fhir.alliance4u.io/api/'
 #adresse de l'api qu'on utilise pour faire transiter les données
@@ -209,7 +209,17 @@ def envoi_observations(request):
     return render(request,'app_fhir/envoi_observations.html',context )   
    
    
-   
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Save the new user
+            login(request, user)  # Optionally log in the user after registration
+            return redirect('home')  # Redirect to a different page after successful registration
+    else:
+        form = CustomUserCreationForm()
+    
+    return render(request, 'app_fhir/inscription.html', {'form': form})
    
    
    
