@@ -33,6 +33,8 @@ def call_external_api(request):
    
 #post une observation: observer la doc, ne pas oublier d'inclure l'identifiant du patient connecté
 def envoi_observations(request):
+    payload=[]
+    headers=[]
     url = "https://fhir.alliance4u.io/api/observation"
     context = {}
     if request.method == 'POST':
