@@ -6,12 +6,13 @@ body {
 nav {
     background-color: #F55F01;
     color: #fff;
-    padding: 10px 20px;
+    padding:10px 20px
 }
 
 nav h1 {
     margin: 0;
     font-size: 24px;
+    padding-right: 5px;
 }
 
 nav ul {
@@ -34,6 +35,12 @@ nav ul li a {
 
 nav ul li a:hover {
     text-decoration: underline;
+}
+
+nav h1 {
+    margin: 0;
+    font-size: 24px;
+    padding-right: 5px;
 }
 
 /* Responsive design for smaller screens */
