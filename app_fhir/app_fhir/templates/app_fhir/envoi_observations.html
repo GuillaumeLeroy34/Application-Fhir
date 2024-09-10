@@ -1,0 +1,28 @@
+
+<html>
+<link
+    rel="stylesheet"
+    href="{% static 'app_fhir/observations.css' %}"
+/>
+<header>
+
+</header>
+
+<div>
+<h1>Envoi de données:</h1>
+
+<form id="formPostObservations" method="post">
+    <label for="taille">Taille du patient observée :</label>
+    <input type="number" id="taille" name="taille">
+
+    <label for="poids">Poids du patient observé :</label>
+    <input type="number" id="poids" name = "poids">
+
+    <label for="date">Date de l'observation</label>
+    <input type="date" name="date" id="date">
+</form>
+
+</div>
+
+
+</html>

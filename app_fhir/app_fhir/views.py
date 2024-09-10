@@ -23,50 +23,16 @@ def call_external_api(request):
 
 
 
-def post_patient(request):
-   data= {
-    "resourceType": "Patient",
-    "id": "66d875c65dab6800126487f6",
-    "name": [
-      {
-        "use": "official",
-        "family": "Receveur",
-        "given": [
-          "Alexandre"
-        ]
-      },
-      {
-        "use": "usual",
-        "given": [
-          "Alex"
-        ]
-      }
-    ],
-    "gender": "female",
-    "birthDate": "1974-12-25",
-    "deceasedBoolean": false
-  }
+   #PATIENT CREE IMPORTANT  "resourceType": "Patient",  "id": "66df16de99cb8a001240f329",
+
    
-   #PATIENT CREE IMPOETANT
-   {
-  "resourceType": "Patient",
-  "id": "66df16de99cb8a001240f329",
-  "name": [
-    {
-      "use": "official",
-      "family": "Ringuet",
-      "given": [
-        "Dominique"
-      ]
-    },
-    {
-      "use": "usual",
-      "given": [
-        "Golmon"
-      ]
-    }
-  ],
-  "gender": "female",
-  "birthDate": "1980-01-20",
-  "deceasedBoolean": false
-}
+
+def envoi_observations(request):
+    if request.method == 'POST':
+        poids = request.POST['poids']
+        taille = request.POST['taille']
+        date = request.POST['date']
+    return render(request,'app_fhir/envoi_observations.html')   
+   
+   
+   #utilisateur 
