@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect 
 import requests
-from django.utils import timezone   
+from django.utils import timezone
 import datetime
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 
 
 url = 'https://fhir.alliance4u.io/api/'
@@ -43,9 +45,9 @@ def envoi_observations(request):
         date_aware = timezone.make_aware( date_stripped, timezone.get_current_timezone()).isoformat()
         context = {"date": date_aware}
         headers = {}
-        payload = {
+        payloadWeight = {
   "resourceType" : "Observation",
-  "id": "217215f",
+  "id": "217215f1",
   "meta" : {
     "profile" : [
       "http://hl7.org/fhir/us/vitals/StructureDefinition/body-weight"
@@ -118,13 +120,104 @@ def envoi_observations(request):
     "code" : "kg"
   }
 }
-    response = requests.post(url, json=payload,headers=headers)
-    if response.status_code == 200:
-        context= {"reponse" : response, "date" : date_aware}
-        return render(request,'app_fhir/envoi_observations.html',context )   
-    else:
-        print('erreur lors de lenvoi des données', response.status_code, response.text)
     
+        payloadHeight= {
+            
+  "resourceType" : "Observation",
+  "id" : "217215f2",
+  "meta" : {
+    "profile" : [
+      "http://hl7.org/fhir/us/vitals/StructureDefinition/height"
+    ]
+  },
+  "text" : {
+    "status" : "extensions",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"height-example\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;height-example&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-height.html\">Body Height</a></p></div><p><b>Device Code</b>: Measuring tape <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#51791000)</span></p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: Body height <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#8302-2)</span></p><p><b>subject</b>: <span>: Small Child1234</span></p><p><b>encounter</b>: <span>: GP Visit</span></p><p><b>effective</b>: 2019-10-16 12:12:29-0900</p><p><b>value</b>: 102 cm<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code cm = 'cm')</span></p></div>"
+  },
+  "extension" : [
+    {
+      "url" : "http://hl7.org/fhir/StructureDefinition/observation-deviceCode",
+      "valueCodeableConcept" : {
+        "coding" : [
+          {
+            "system" : "http://snomed.info/sct",
+            "code" : "51791000",
+            "display" : "Measuring tape"
+          }
+        ]
+      }
+    }
+  ],
+  "status" : "final",
+  "category" : [
+    {
+      "coding" : [
+        {
+          "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code" : "vital-signs",
+          "display" : "Vital Signs"
+        }
+      ],
+      "text" : "Vital Signs"
+    }
+  ],
+  "code" : {
+    "coding" : [
+      {
+        "system" : "http://loinc.org",
+        "code" : "8302-2",
+        "display" : "Body height"
+      }
+    ]
+  },
+  "subject" : {
+    "display" : "Dominique"
+  },
+  "encounter" : {
+    "display" : "GP Visit"
+  },
+  "effectiveDateTime" : date_aware,
+  "valueQuantity" : {
+    "value" : taille,
+    "unit" : "cm",
+    "system" : "http://unitsofmeasure.org",
+    "code" : "cm"
+  }
+}
+        
+    
+    responseWeight = requests.post(url, json=payloadWeight,headers=headers)
+    if responseWeight.status_code == 200:
+        retour_reponse = responseWeight.text
+    else:
+        print('erreur lors de lenvoi des données', responseWeight.status_code, responseWeight.text)
+    
+    responseHeight = requests.post(url, json=payloadHeight, headers= headers) 
+    if responseHeight.status_code == 200:
+        retour_reponse += responseHeight.text
+    else:
+        print('erreur lors de lenvoi des données', responseHeight.status_code, responseHeight.text)    
+
+
+    context= {"reponse" : retour_reponse, "date" : date_aware}
+    
+
     return render(request,'app_fhir/envoi_observations.html',context )   
    
    
+   
+   
+   
+   
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                pass
+    else:
+        form = AuthenticationForm()
+    return render(request, 'app_fhir/connexion.html', {'form': form})
