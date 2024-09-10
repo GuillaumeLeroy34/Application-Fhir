@@ -1,0 +1,12 @@
+html{
+    background-image: url("../images/background.png");
+    background-size: 100% 210%;
+
+}
+
+h1{
+    padding-top: 20px;
+    padding-bottom: 50px;
+    text-align: center;
+
+}
