@@ -5,8 +5,11 @@
 
   <div>
     <h1>Envoi de données:</h1>
+    <h2>date</h2>
+    <p>{{date}}</p>
 
     <form id="formPostObservations" method="post">
+        {% csrf_token %}
       <label for="taille">Taille du patient observée :</label>
       <input type="number" id="taille" name="taille" />
 
@@ -14,10 +17,19 @@
       <input type="number" id="poids" name="poids" />
 
       <label for="date">Date de l'observation</label>
-      <input type="date-time" name="date-heure" id="date-heure" />
+      <input type="datetime-local" name="date-heure" id="date-heure" />
+
+      <input type="submit" value="valider">
     </form>
   </div>
 
+<div class="reponse">
+<h1>réponse:</h1>
+{{reponse}}
+
+</div>
+
+  
   <style>
 form {
     display: flex;
