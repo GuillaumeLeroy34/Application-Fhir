@@ -209,6 +209,10 @@ def envoi_observations(request):
     return render(request,'app_fhir/envoi_observations.html',context )   
    
    
+   
+def navigation(request):
+    return render(request, 'app_fhir/navigation.html')
+  
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -236,3 +240,6 @@ def login_view(request):
 
         form = AuthenticationForm()
     return render(request, 'app_fhir/connexion.html', {'form': form})
+
+def navigation(request):
+    return render(request, 'app_fhir/navigation.html')
