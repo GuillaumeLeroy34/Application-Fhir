@@ -35,8 +35,8 @@ def call_external_api(request):
    
 #post une observation: observer la doc, ne pas oublier d'inclure l'identifiant du patient connecté
 def envoi_observations(request):
-    payload=[]
-    headers=[]
+    payload={}
+    headers={}
     url = "https://fhir.alliance4u.io/api/observation"
     context = {}
     if request.method == 'POST':
@@ -208,7 +208,8 @@ def envoi_observations(request):
    
    
    
-   
+def navigation(request):
+    return render(request, 'app_fhir/navigation.html')
    
    
 def login_view(request):
@@ -224,3 +225,6 @@ def login_view(request):
 
         form = AuthenticationForm()
     return render(request, 'app_fhir/connexion.html', {'form': form})
+
+def navigation(request):
+    return render(request, 'app_fhir/navigation.html')
