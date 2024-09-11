@@ -5,6 +5,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bmichart.css' %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 </head>
 <body>
-    <div style="width: 75%; margin: auto;">
+    <div class="nav-buttons">
+        <a href="{% url 'observations' %}" class="btn">Envoyer une mesure</a>
+      </div>
+    <div style="width: 75%; margin: auto;" class=canvas>
         <canvas id="bmiChart" width="400" height="200"></canvas>
     </div>
 
@@ -32,7 +36,7 @@
                     data: {
                         labels: data.dates,  // X-axis: Dates
                         datasets: [{
-                            label: "Évolutio de l'imc dans le temps",
+                            label: "Évolution de l'imc dans le temps",
                             data: data.values,  // Y-axis: BMI values
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
