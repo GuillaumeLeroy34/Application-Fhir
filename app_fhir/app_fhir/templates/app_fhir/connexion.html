@@ -2,8 +2,8 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/connexion.css' %}">
-<div>
-    <h1>connexion:</h1>
+<div class=connexion-container>
+    <h1>Connexion:</h1>
     <form method="post">
       {% csrf_token %} {{ form }}
       <input type="submit" value="connexion" />

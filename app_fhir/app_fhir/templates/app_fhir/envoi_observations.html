@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{% static 'app_fhir/observations.css' %}" />
   <header></header>
 
-  <div>
+  <div class=observation-container>
     <h1>Envoi de données:</h1>
     <h2>date</h2>
     <p>{{date}}</p>
@@ -28,8 +28,11 @@
 
 <div class="reponse">
 <h1>réponse:</h1>
-{{reponse}}
-
+{% if reponse %}
+<p class=reussi>L'envoi a été reussi</p>
+{% else %}
+<p class=echec>L'envoi a échoué. Veuillez reessayer.</p>
+{% endif %}
 </div>
 {%endblock%}
 </html>
