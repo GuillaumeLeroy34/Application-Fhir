@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect 
 import requests
 from django.utils import timezone
-import datetime
+from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
 from django.conf import settings
 from .forms import CustomUserCreationForm
 from .models import Patient
+import json
+from .utils import get_graph_data
+import traceback
+from django.http import JsonResponse
 url = 'https://fhir.alliance4u.io/api/'
 #adresse de l'api qu'on utilise pour faire transiter les données
 
@@ -112,7 +116,7 @@ def envoi_observations(request):
   "text" : "Body weight"
 },
 "subject" : {           
-  "reference":"Patient/${id}".format(id=request.user.patientId), #TODO remplacer ce champs par "Patient/<id_du_patient_connecté>"
+  "reference":"Patient/{id}".format(id=request.user.patientId), #TODO remplacer ce champs par "Patient/<id_du_patient_connecté>"
   "display" : request.user.last_name #TODO : récupérer le nom du patient connecté à l'application
 },
 "encounter" : {
@@ -298,3 +302,130 @@ def logout_view(request):
 
 def navigation(request):
     return render(request, 'app_fhir/navigation.html')
+  
+  
+def get_bmi_data(request):
+  url = "https://fhir.alliance4u.io/api/observation"  
+      # Effectuer la requête GET vers l'API
+  try:
+      response = requests.get(url)
+      response.raise_for_status()  # Vérifie si la requête a échoué
+      data = response.json()  # Récupérer les données sous forme de JSON
+      data_text = response.text
+      target_patient_id = request.user.patientId
+      filtered_observations = [
+        observation for observation in data 
+        if observation.get("subject", {}).get("reference") == "Patient/66e061a899cb8a001240f383"
+      ]
+      if filtered_observations:
+        
+        print(f"Found {len(filtered_observations)} observations for the patient {target_patient_id}:")  
+
+        bmi_data = {
+        "dates": [],
+        "values": []
+    }
+        #parcourir la liste filtrée
+        for observation in filtered_observations: 
+          codes = observation.get("code",{}).get("coding",[])
+          for code in codes:
+            if code.get("code") == "39156-5":
+              value_quantity =  observation.get("valueQuantity",{})
+              value = value_quantity.get("value","Na")
+              unit = value_quantity.get("unit","Na")
+              effective_date = observation.get("effectiveDateTime")
+              if value is not None and effective_date is not None:
+                effective_date = datetime.fromisoformat(effective_date.replace("Z","+00:00"))
+                bmi_data["dates"].append(effective_date.strftime("%Y-%m-%d %H:%M"))
+              bmi_data["values"].append(observation["valueQuantity"]["value"])
+
+      else:
+          print(f"No observations found for the patient {target_patient_id}")
+      if bmi_data:
+        print("la liste traitée fait {taille} éléments".format(taille = len(bmi_data)))
+      
+  except requests.exceptions.HTTPError as err:
+    print("erreur http")
+    traceback.print_exc()
+  except Exception as err:
+      print("une erreur est survenue; traceback")
+      traceback.print_exc()  
+  return(JsonResponse(bmi_data))    
+      
+def graphique_observation(request):
+  url = "https://fhir.alliance4u.io/api/observation"  
+    # Effectuer la requête GET vers l'API
+  try:
+      response = requests.get(url)
+      response.raise_for_status()  # Vérifie si la requête a échoué
+      data = response.json()  # Récupérer les données sous forme de JSON
+      data_text = response.text
+      target_patient_id = request.user.patientId
+      filtered_observations = [
+        observation for observation in data 
+        if observation.get("subject", {}).get("reference") == "Patient/66e061a899cb8a001240f383"
+      ]
+      if filtered_observations:
+        
+        print(f"Found {len(filtered_observations)} observations for the patient {target_patient_id}:")  
+
+        bmi_data = {
+        "dates": [],
+        "values": []
+    }
+        #parcourir la liste filtrée
+        for observation in filtered_observations: 
+          codes = observation.get("code",{}).get("coding",[])
+          for code in codes:
+             if code.get("code") == "39156-5":
+               value_quantity =  observation.get("valueQuantity",{})
+               value = value_quantity.get("value","Na")
+               effective_date = observation.get("effectiveDateTime")
+               if value is not None and effective_date is not None:
+                 effective_date = datetime.fromisoformat(effective_date.replace("Z","+00:00"))
+                 bmi_data["dates"].append(effective_date.strftime("%Y-%m-%d %H:%M"))
+               bmi_data["values"].append(observation["valueQuantity"]["value"])
+
+          
+            
+            
+            # if code.get("code") == "29463-7":
+              
+          #     value_quantity =  observation.get("valueQuantity",{})   #code de test pour récupérer poids et taille
+          #     value = value_quantity.get("value","Na")
+          #     unit = value_quantity.get("unit","Na")
+          #     bmi_data.append({"type" : 'weight',
+          #                           "value" : value,
+          #                           "unit" : unit})
+            
+          #   if code.get("code") == "8302-2":
+          #     value_quantity =  observation.get("valueQuantity",{})
+          #     value = value_quantity.get("value","Na")
+          #     unit = value_quantity.get("unit","Na")
+          #     bmi_data.append({"type" : 'height',
+          #                           "value" : value,
+          #                           "unit" : unit}) 
+          
+          #ajouter les informations extraites à une liste de sortie
+      else:
+          print(f"No observations found for the patient {target_patient_id}")
+      if bmi_data:
+        print("la liste traitée fait {taille} éléments".format(taille = len(bmi_data)))
+      
+  except requests.exceptions.HTTPError as err:
+    print("erreur http")
+    traceback.print_exc()
+  except Exception as err:
+      print("une erreur est survenue; traceback")
+      traceback.print_exc()
+      
+
+  
+  return render(request, 'app_fhir/graphique_observations.html', { "observations" : bmi_data, "nom" : request.user.last_name, "prenom" : request.user.first_name })
+
+  
+  
+
+
+def bmi_chart_view(request):
+    return render(request, 'app_fhir/bmichart.html')

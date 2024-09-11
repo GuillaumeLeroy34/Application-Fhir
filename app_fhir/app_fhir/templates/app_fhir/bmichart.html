@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Over Time</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Moment.js (for time-based charts) -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
+    <!-- Chart.js Date Adapter for Moment.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+</head>
+<body>
+    <div style="width: 75%; margin: auto;">
+        <canvas id="bmiChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        // Fetch the BMI data from the backend
+        fetch("{% url 'get_bmi_data' %}")
+            .then(response => response.json())
+            .then(data => {
+                // Prepare the data for Chart.js
+                const ctx = document.getElementById('bmiChart').getContext('2d');
+                const bmiChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.dates,  // X-axis: Dates
+                        datasets: [{
+                            label: 'BMI Over Time',
+                            data: data.values,  // Y-axis: BMI values
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 2,
+                            fill: true,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    unit: 'day'
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'BMI Value'
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching BMI data:', error));
+    </script>
+</body>
+</html>

@@ -6,7 +6,12 @@
     <ul>
         <li><h1>Nutri Track</h1></li>
         <li><a href="{% url 'accueil' %}">Accueil</a></li>
+
+        
         <li><a href="{% url 'observations' %}">Observations</a></li>
+
+
+
         {% if user.is_authenticated %}
         <li><a href="{% url 'deconnexion' %}">Deconnexion</a></li>
 

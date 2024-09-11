@@ -27,4 +27,8 @@ urlpatterns = [
     path('inscription', views.register,name= "inscription"),
     path('navigation', views.navigation, name="navigation"),
     path('deconnexion', views.logout_view, name="deconnexion"),
+    path('graphique_observation', views.graphique_observation, name = 'graphique_observations'),
+    path('bmi-data/', views.get_bmi_data, name='get_bmi_data'),
+    path('bmi-chart/', views.bmi_chart_view, name='bmi_chart_view'),
+    
 ]
