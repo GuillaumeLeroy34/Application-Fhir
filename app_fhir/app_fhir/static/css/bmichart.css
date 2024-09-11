@@ -33,3 +33,10 @@ canvas{
 .btn:hover {
     background-color: #a84304;
 }   
+
+.noteMedecin{
+    background-color: white;
+    width: fit-content;
+    padding: 2%;
+    border-radius: 5px;
+}

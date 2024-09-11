@@ -316,7 +316,6 @@ def get_bmi_data(request):
       response = requests.get(url)
       response.raise_for_status()  # Vérifie si la requête a échoué
       data = response.json()  # Récupérer les données sous forme de JSON
-      data_text = response.text
       target_patient_id = request.user.patientId
       filtered_observations = [
         observation for observation in data 
@@ -345,17 +344,13 @@ def get_bmi_data(request):
               bmi_data["values"].append(observation["valueQuantity"]["value"])
 
       else:
-          print(f"No observations found for the patient {target_patient_id}")
-      if bmi_data:
-        print("la liste traitée fait {taille} éléments".format(taille = len(bmi_data)))
-      
+          print(f"No observations found for the patient {target_patient_id}")      
   except requests.exceptions.HTTPError as err:
     print("erreur http")
     traceback.print_exc()
   except Exception as err:
       print("une erreur est survenue; traceback")
       traceback.print_exc() 
-  print(bmi_data["dates"]) 
   zipped_data = list(zip(
       [dt.strptime(date, "%Y-%m-%d %H:%M") for date in bmi_data["dates"]],
       bmi_data["values"]
@@ -432,8 +427,69 @@ def graphique_observation(request):
 
 
 def bmi_chart_view(request):
-    return render(request, 'app_fhir/bmichart.html')
-  
+  url = "https://fhir.alliance4u.io/api/nutrition-order"
+  payload =  {
+    "resourceType": "NutritionOrder",
+    "subject": {
+      "reference": "Patient/66e061a899cb8a001240f383"
+    },
+    "dateTime": "2024-09-13",
+    "orderer": {
+      "reference": "Practitioner/f016"
+    },
+    "oralDiet": {
+      "type": [
+        {
+          "text": "Régime hypercalorique"
+        }
+      ],
+      "schedule": {},
+      "instruction": "bro stop le bk tous les jours"
+    },
+    "supplement": []
+  }
+  try:
+    response = requests.get(url)
+    response.raise_for_status()
+    
+    data = response.json()  # Récupérer les données sous forme de JSON
+    target_patient_id = request.user.patientId
+    filtered_nutrition_orders = [
+      order for order in data 
+      if order.get("subject", {}).get("reference") == "Patient/{id}".format(id = target_patient_id)
+    ]
+    print(filtered_nutrition_orders)
+    notesItems = []
+    for order in filtered_nutrition_orders: 
+      datetime = order.get("dateTime",)
+      diet = order.get("oralDiet",{}).get("type")[0].get("text")
+      instructions = order.get("oralDiet").get("instruction")
+      nomPraticien = ""
+      prenomPraticien = ""
+      try:
+        practitionerId = order.get("orderer").get("reference").split('/')[-1]
+        practitionerResponse = requests.get("https://fhir.alliance4u.io/api/practitioner/{id}".format(id=practitionerId))
+        practitioner = practitionerResponse.json()
+        nomPraticien = practitioner.get("name")[0].get("family")
+        prenomPraticien = practitioner.get("name")[0].get("given")[0]
+      except Exception as e:
+        print("an error has occured")
+        traceback.print_exc()
+      
+      
+      notesItems.append({"datetime": datetime,
+                         "diet" : diet, 
+                         "instructions" : instructions, 
+                         "nomPraticien": nomPraticien,
+                         "prenomPraticien": prenomPraticien})
+
+  except Exception as e:
+    print("une erreur est survenue")
+    traceback.print_exc()
+    
+    
+    
+  return render(request, 'app_fhir/bmichart.html',{"notesItems" : notesItems})
   
 def compte(request):
   if request.method == "POST":
