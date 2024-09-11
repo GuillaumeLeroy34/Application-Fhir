@@ -272,7 +272,7 @@ def register(request):
             except requests.RequestException as e: 
               form.add_error(None, 'An error occurred while contacting the external API.')
               print(f"API Error: {e}")
-              
+            return redirect('accueil')  
     else:
         form = CustomUserCreationForm()
     
@@ -289,7 +289,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
               login(request, user)
-              redirect('/')     
+            return  redirect('/')     
     else:
 
         form = AuthenticationForm()

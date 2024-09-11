@@ -9,6 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
     <!-- Chart.js Date Adapter for Moment.js -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+    <!-- plugin d'annotation pour chart js-->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
 </head>
 <body>
     <div style="width: 75%; margin: auto;">
@@ -27,7 +29,7 @@
                     data: {
                         labels: data.dates,  // X-axis: Dates
                         datasets: [{
-                            label: "Évolutio de l'imc dans le temps",
+                            label: "Évolution de l'imc dans le temps",
                             data: data.values,  // Y-axis: BMI values
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -52,6 +54,38 @@
                                 title: {
                                     display: true,
                                     text: 'BMI Value'
+                                }
+                            }
+                        },
+                        plugins: {
+                            annotation: {
+                                annotations: {
+                                    // Ligne pour le seuil de malnutrition (IMC < 18.5)
+                                    malnutrition: {
+                                        type: 'line',
+                                        yMin: 18.5,
+                                        yMax: 18.5,
+                                        borderColor: 'red',
+                                        borderWidth: 2,
+                                        label: {
+                                            enabled: true,
+                                            content: 'Seuil de malnutrition',
+                                            position: 'end'
+                                        }
+                                    },
+                                    // Ligne pour le seuil de surpoids (IMC > 25)
+                                    overweight: {
+                                        type: 'line',
+                                        yMin: 25,
+                                        yMax: 25,
+                                        borderColor: 'orange',
+                                        borderWidth: 2,
+                                        label: {
+                                            enabled: true,
+                                            content: 'Seuil de surpoids',
+                                            position: 'end'
+                                        }
+                                    }
                                 }
                             }
                         }
