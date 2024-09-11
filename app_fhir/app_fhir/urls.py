@@ -30,5 +30,5 @@ urlpatterns = [
     path('graphique_observation', views.graphique_observation, name = 'graphique_observations'),
     path('bmi-data/', views.get_bmi_data, name='get_bmi_data'), #pas une vraie vue, ça renvoie juste des données en Json
     path('bmi-chart/', views.bmi_chart_view, name='bmi_chart_view'), #la vraie vue qui crée le graphe
-    
+    path('compte/',views.compte, name="compte"),
 ]
