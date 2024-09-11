@@ -436,11 +436,11 @@ def bmi_chart_view(request):
   
   
 def compte(request):
-  if request.method == "post":
+  if request.method == "POST":
     print("la methode est")
     if 'confirm' in request.POST:
       print("confirm vrai")
-      url = "https://fhir.alliance4u.io/api/patient/{idpatient}".format(idpatient = request.user.idPatient)
+      url = "https://fhir.alliance4u.io/api/patient/{idpatient}".format(idpatient = request.user.patientId)
       try:
         requests.delete(url)
       except Exception as err:
@@ -449,5 +449,6 @@ def compte(request):
       request.user.delete()
       messages.success(request, 'User has been deleted successfully.')
       return redirect('/')
-  return render(request,"app_fhir/compte.html", {"nom" : request.user.first_name, "prenom" : request.user.last_name}) 
+  else:
+    return render(request,"app_fhir/compte.html", {"nom" : request.user.first_name, "prenom" : request.user.last_name}) 
   
