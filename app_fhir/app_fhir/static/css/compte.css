@@ -1,0 +1,61 @@
+/* Style général de la page */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("../images/orange-medical-background_23-2147490513-3244511653.jpg");
+    background-size: 100%;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+/* Style pour le titre */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Style pour le formulaire */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f1955b;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+
+/* Style pour les labels */
+label {
+    display: block;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* Style pour les cases à cocher */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Style pour le bouton */
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #c0392b;
+}
+
+button:active {
+    background-color: #e74c3c;
+}
