@@ -1,5 +1,6 @@
 import requests
 import json
+import matplotlib
 import matplotlib.pyplot as plt
 from datetime import datetime
 from xml.dom.minidom import Element
@@ -18,7 +19,6 @@ def getGraph():
     graph = graph.decode('utf-8')
     buffer.close()
     return graph
-
 
 def get_graph_data(bmi_data):
     plt.clf()

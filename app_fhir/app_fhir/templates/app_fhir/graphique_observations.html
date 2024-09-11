@@ -1,9 +1,14 @@
+{% extends "app_fhir/navigation.html"%}
+{% load static %}
+{% block content %}
+
 {{ nom }}
 {{prenom}}
 {{ observations }}
 {{ dernier_imc}}
 {{recommandations}}
 {{dernieres_recommandations}}
-
 {{graph}}
 {{data_text}}
+
+{% endblock %}
