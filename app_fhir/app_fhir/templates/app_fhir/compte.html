@@ -1,11 +1,17 @@
-<h1>compte de {{nom}}{{ prenom }}</h1>
+{% extends "app_fhir/navigation.html"%}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/compte.css' %}">
+<h1>Compte de {{nom}}{{ prenom }}</h1>
 
 <form id="inscription" name="inscription" method="post">
   {% csrf_token %}
   <label> 
-      <input type="checkbox" name="confirm" required /> confirmer
+      <input type="checkbox" name="confirm" required /> ! Confirmer la suppression. Cette action est  <b> irréversible</b>. !
     </label>
-    <button type="submit" value="supprimer">suppression</button>
+    <button type="submit" value="supprimer">Oui, je veux supprimer mon compte.</button>
   {% comment %} on est obligés de faire un formulaire pour garantir la sécurité
   de la suppression (token csrf) {% endcomment %}
 </form>
+
+{% endblock %}
