@@ -14,7 +14,7 @@ body {
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #F55F01; /* Fond du conteneur en orange */
+    background-color: #f1955b; /* Fond du conteneur en orange */
 }
 
 h2 {
@@ -52,7 +52,7 @@ textarea {
 
 button[type="submit"] {
     background-color: #fff; /* Bouton de soumission en blanc */
-    color: #F55F01; /* Texte du bouton en orange */
+    color: #f1955b; /* Texte du bouton en orange */
     border: 1px solid #fff;
     border-radius: 4px;
     padding: 10px;
@@ -64,6 +64,6 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #F55F01; /* Fond du bouton orange au survol */
+    background-color: #f1955b; /* Fond du bouton orange au survol */
     color: #fff; /* Texte blanc au survol */
 }

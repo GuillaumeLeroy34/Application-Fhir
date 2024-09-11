@@ -1,5 +1,11 @@
+{% extends "app_fhir/navigation.html"%}
+{% load static %}
+{% block content %}
+
+
 <!DOCTYPE html>
 <html lang="en">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bmichart.css' %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +19,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
 </head>
 <body>
-    <div style="width: 75%; margin: auto;">
+    <div class="nav-buttons">
+        <a href="{% url 'observations' %}" class="btn">Envoyer une mesure</a>
+      </div>
+    <div style="width: 75%; margin: auto;" class=canvas>
         <canvas id="bmiChart" width="400" height="200"></canvas>
     </div>
 
@@ -96,3 +105,4 @@
     </script>
 </body>
 </html>
+{%endblock%}

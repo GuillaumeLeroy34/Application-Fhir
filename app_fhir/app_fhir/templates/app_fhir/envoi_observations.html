@@ -6,6 +6,10 @@
   <link rel="stylesheet" href="{% static 'css/observations.css' %}" />
   <header></header>
 
+  <div class="nav-buttons">
+    <a href="{% url 'bmi_chart_view' %}" class="btn">Voir Graph</a>
+  </div>
+
   <div class=observation-container>
     <h1>Envoi de données:</h1>
     <p>{{date}}</p>
@@ -26,7 +30,6 @@
   </div>
 
 <div class="reponse">
-<h1>Réponse:</h1>
   {% if reponse %}
   <p class=reussi>L'envoi a été reussi</p>
   {% else %}

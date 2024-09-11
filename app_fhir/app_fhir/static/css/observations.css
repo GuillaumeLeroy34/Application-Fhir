@@ -15,7 +15,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #F55F01; /* Fond du conteneur en orange */
+    background-color: #f1955b; /* Fond du conteneur en orange */
 }
 
 header h1 {
@@ -96,3 +96,25 @@ input[type="submit"]:hover {
     padding: 10px;
     border-radius: 4px;
 }
+.nav-buttons {
+    margin-top: 9px;
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #f1955b;
+    color: white;
+    text-decoration: none;
+    border: 1px solid;
+    border-color: black;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #a84304;
+}   
