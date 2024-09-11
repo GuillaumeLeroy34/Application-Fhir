@@ -29,16 +29,13 @@ def call_external_api(request):
     username = request.user.username
     return render(request, 'app_fhir/accueil.html', {'data': data, "username" : username })
 
-
-
-
-   #PATIENT CREE IMPORTANT  "resourceType": "Patient",  "id": "66df16de99cb8a001240f329",
-
 #ID médecin f011 f010
    
 #post une observation: observer la doc, ne pas oublier d'inclure l'identifiant du patient connecté
 def envoi_observations(request):
-  payloadWeight= {}
+  weightBool = False
+  heightBool = False
+  payloadWeight= {} #pour une raison qui m'échappe django veut absolument que tout soit déclaré en début de fonction
   payloadHeight = {}
   headers = {}
   retour_reponse = ""
@@ -46,6 +43,8 @@ def envoi_observations(request):
   url = "https://fhir.alliance4u.io/api/observation"
   context = {}
   if request.method == 'POST':
+       #booleen pour déterminer si les deux envois ont réussi
+        
       poids = int(request.POST['poids'])
       taille = int(request.POST['taille'])
       date = request.POST['date-heure']
@@ -194,18 +193,20 @@ def envoi_observations(request):
 }    
   responseWeight = requests.post(url, json=payloadWeight,headers=headers)
   if responseWeight.status_code == 200:
-      retour_reponse = responseWeight.text
+    weightBool = True
+    retour_reponse = responseWeight.text
   else:
-      print('erreur lors de lenvoi des données', responseWeight.status_code, responseWeight.text)
+    print('erreur lors de lenvoi des données', responseWeight.status_code, responseWeight.text)
   
   responseHeight = requests.post(url, json=payloadHeight, headers= headers) 
   if responseHeight.status_code == 200:
-      retour_reponse += responseHeight.text
+    heightBool = True
+    retour_reponse += responseHeight.text
   else:
       print('erreur lors de lenvoi des données', responseHeight.status_code, responseHeight.text)    
 
 
-  context= {"reponse" : retour_reponse, "date" : date_aware}
+  context= {"reponse" : weightBool & heightBool , "date" : date_aware}
   
 
   return render(request,'app_fhir/envoi_observations.html',context )   
@@ -228,7 +229,6 @@ def register(request):
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
             date_naissance = form.cleaned_data.get('date_naissance')
-            genre = form.cleaned_data.get('genre')
             password = form.cleaned_data.get('password1') 
             payload = {
               "resourceType": "Patient",
