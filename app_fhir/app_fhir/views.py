@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 import requests
 from django.utils import timezone
 from datetime import datetime
+import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
@@ -9,7 +10,6 @@ from django.conf import settings
 from .forms import CustomUserCreationForm
 from .models import Patient
 import json
-from .utils import get_graph_data
 import traceback
 from django.http import JsonResponse
 url = 'https://fhir.alliance4u.io/api/'
