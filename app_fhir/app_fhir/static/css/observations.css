@@ -1,6 +1,98 @@
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 20%;
+/* Styles généraux pour la page d'observation */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("../images/orange-medical-background_23-2147490513-3244511653.jpg");/* Couleur de fond orange */
+    background-size: 100%;
+    color: #fff; /* Texte en blanc */
+    margin: 0;
+    padding: 0;
+}
+
+.observation-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #F55F01; /* Fond du conteneur en orange */
+}
+
+header h1 {
+    color: #fff; /* Texte en blanc */
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #fff; /* Texte en blanc */
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #fff; /* Texte des labels en blanc */
+}
+
+input[type="number"],
+input[type="datetime-local"] {
+    padding: 10px;
+    border: 1px solid #fff; /* Bordure blanche pour contraste */
+    border-radius: 4px;
+    background-color: white; /* Fond des champs de saisie en orange */
+    color: black; /* Texte des champs de saisie en blanc */
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+input[type="submit"] {
+    background-color: #fff; /* Bouton de validation en blanc */
+    color: black; /* Texte du bouton en orange */
+    border: 1px solid #fff;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+input[type="submit"]:hover {
+    background-color: lightgray; /* Fond du bouton orange au survol */
+    color: black; /* Texte blanc au survol */
+}
+
+.reponse {
+    margin-top: 30px;
+    padding: 15px;
+    border-top: 1px solid #fff;
+}
+
+.reponse h1 {
+    color: #fff; /* Titre de réponse en blanc */
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.reussi {
+    color: #fff; /* Texte de réussite en blanc */
+    background-color: green; /* Fond vert pour le succès */
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.echec {
+    color: #fff; /* Texte d'échec en blanc */
+    background-color: red; /* Fond rouge pour l'échec */
+    padding: 10px;
+    border-radius: 4px;
 }
