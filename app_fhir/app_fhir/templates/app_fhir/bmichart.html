@@ -23,16 +23,22 @@
         <a href="{% url 'observations' %}" class="btn">Envoyer une mesure</a>
       </div>
       <div class="dashboard">
-    {% for item in notesItems %}
-    <div class="noteMedecin">
-        <p>Date: {{ item.datetime }}</p>
-        <p>Diet: {{ item.diet }}</p>
-        <p>Instructions: {{ item.instructions }}</p>
-        <p>Praticien: {{ item.prenomPraticien }} {{ item.nomPraticien }}</p>
-        <hr>
-    </div>
-    {% endfor %}
-
+        <div class="notes">
+                                 
+                                     {% for item in notesItems %}
+                                     <div class="noteMedecin">
+                                         <p><p class="entete">de:</p> {{ item.prenomPraticien }} {{ item.nomPraticien }}</p>
+                                         <hr>
+                                         <p><p class="entete">le:</p> {{ item.datetime }}</p>
+                                         <hr>
+                                         <p><p class="entete">qualité du régime:</p> {{ item.diet }}</p>
+                                         <hr>
+                                         <p><p class="entete">Instructions:</p> {{ item.instructions }}</p>
+                                   
+                                     </div>
+                                     {% endfor %}
+                                 
+                             </div>
 
     <div style="width: 75%; margin: auto;" class=canvas>
         <canvas id="bmiChart" width="400" height="200"></canvas>

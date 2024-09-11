@@ -35,8 +35,34 @@ canvas{
 }   
 
 .noteMedecin{
-    background-color: white;
-    width: fit-content;
-    padding: 2%;
-    border-radius: 5px;
+    background-size: 100% 100%; /* Ensures the image fully covers the div */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center;
+ /* Adds space inside the div to prevent overlap */
+    box-sizing: border-box; /* Ensures padding is inside the content box */
+    max-height: 200px; /* Adjust based on the height of your sticky note */
+    padding-bottom: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 10px;
+    max-width: 200px; /* Adjust based on the width of your sticky note */
+    background-image: url("../images/sticky_note.png");
+    font-size: 10;
+    font-family: cursive;
+    text-align: center;
+}
+
+.entete{
+    font-weight: bold;
+    display: inline;
+}
+.dashboard{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+}
+
+.notes{display: flex;
+flex-direction: column;
+    
 }
