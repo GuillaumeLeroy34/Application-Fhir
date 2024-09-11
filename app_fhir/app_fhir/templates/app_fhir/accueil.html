@@ -9,9 +9,11 @@
 
 <div>
 <h1>Nutri Track</h1>
+{% if username %}<h1>bienvenue, {{username}}     </h1> {% endif %}
 <a href="{% url "observations" %}">observations (lien temporaire)</a>
 <a href="{% url "connexion" %}">se connecter (lien temporaire) </a>
 <a href="{% url "inscription" %}">s'inscrire</a>
+{% if username %}<a href="{% url "deconnexion" %}">se déconnecter</a> {% endif %}
 
 <hr>
 

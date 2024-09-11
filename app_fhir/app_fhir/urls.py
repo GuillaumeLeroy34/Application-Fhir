@@ -25,5 +25,6 @@ urlpatterns = [
     path('observations',views.envoi_observations,name='observations'),
     path('connexion',views.login_view,name="connexion"),
     path('inscription', views.register,name= "inscription"),
-    path('navigation', views.navigation, name="navigation")
+    path('navigation', views.navigation, name="navigation"),
+    path('deconnexion', views.logout_view, name="deconnexion"),
 ]
