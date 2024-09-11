@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect 
 import requests
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime as dt
 import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -335,7 +335,7 @@ def get_bmi_data(request):
               unit = value_quantity.get("unit","Na")
               effective_date = observation.get("effectiveDateTime")
               if value is not None and effective_date is not None:
-                effective_date = datetime.fromisoformat(effective_date.replace("Z","+00:00"))
+                effective_date = dt.fromisoformat(effective_date.replace("Z","+00:00"))
                 bmi_data["dates"].append(effective_date.strftime("%Y-%m-%d %H:%M"))
               bmi_data["values"].append(observation["valueQuantity"]["value"])
 
