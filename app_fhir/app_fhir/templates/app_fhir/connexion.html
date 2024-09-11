@@ -1,4 +1,6 @@
+{% extends "app_fhir/navigation.html"%}
 {% load static %}
+{% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/connexion.css' %}">
 <div>
     <h1>connexion:</h1>
@@ -7,5 +9,4 @@
       <input type="submit" value="connexion" />
     </form>
   </div>
-  
-"'"
+{% endblock %}

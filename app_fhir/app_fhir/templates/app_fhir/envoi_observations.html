@@ -1,4 +1,7 @@
+{% extends "app_fhir/navigation.html"%}
+
 <html>
+  {% block content%}
   {% load static %}
   <link rel="stylesheet" href="{% static 'app_fhir/observations.css' %}" />
   <header></header>
@@ -28,14 +31,6 @@
 {{reponse}}
 
 </div>
-
-  
-  <style>
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 20%;
-}
-  </style>
+{%endblock%}
 </html>
+

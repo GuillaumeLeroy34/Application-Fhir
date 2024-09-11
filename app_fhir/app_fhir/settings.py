@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     
 ]
 
+MIDDLEWARE_CLASSES = (
+  'gnu_terry_pratchett.middleware.ClacksMiddleware',
+)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
