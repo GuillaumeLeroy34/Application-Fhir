@@ -1,10 +1,12 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/navigation.css' %}">
+<head>
+    <title>Nutri Track</title>
 <nav>
     
 
     <ul>
-        <li><h1>Nutri Track</h1></li>
+        <li><image src="{%static 'images/NutriTrack_blanc.png'%}" width=100/></li>
         <li><a href="{% url 'accueil' %}">Accueil</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'observations' %}">Observations</a></li>
