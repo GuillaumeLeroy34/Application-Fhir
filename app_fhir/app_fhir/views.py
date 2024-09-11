@@ -285,7 +285,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
               login(request, user)
-              redirect("accueil")     
+              redirect('/')     
     else:
 
         form = AuthenticationForm()
