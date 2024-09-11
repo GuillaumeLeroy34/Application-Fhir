@@ -354,19 +354,23 @@ def get_bmi_data(request):
     traceback.print_exc()
   except Exception as err:
       print("une erreur est survenue; traceback")
-      traceback.print_exc()  
-  zipped_data = list(zip([datetime.strptime(date, "%Y-%m-%d") for date in bmi_data["dates"]], bmi_data["values"]))
+      traceback.print_exc() 
+  print(bmi_data["dates"]) 
+  zipped_data = list(zip(
+      [dt.strptime(date, "%Y-%m-%d %H:%M") for date in bmi_data["dates"]],
+      bmi_data["values"]
+  ))
 
-  # Step 2: Sort the zipped list by the dates (first item of the tuple)
+  # Step 2: Sort the zipped list by the datetime objects
   sorted_data = sorted(zipped_data, key=lambda x: x[0])
 
-  # Step 3: Unzip the sorted list back into separate lists
+  # Step 3: Unzip the sorted list back into dates and values
   sorted_dates, sorted_values = zip(*sorted_data)
 
-  # Step 4: Update the original bmi_data with the sorted values
-  bmi_data["dates"] = [date.strftime("%Y-%m-%d") for date in sorted_dates]  # Convert back to string
+  # Step 4: Update the original data structure with the sorted values
+  # Convert datetime objects back to "YYYY-MM-DD HH:MM" format
+  bmi_data["dates"] = [date.strftime("%Y-%m-%d %H:%M") for date in sorted_dates]
   bmi_data["values"] = list(sorted_values)
-  print(bmi_data)
   return(JsonResponse(bmi_data))    
       
 def graphique_observation(request):
@@ -404,24 +408,7 @@ def graphique_observation(request):
                bmi_data["values"].append(observation["valueQuantity"]["value"])
 
           
-            
-            
-            # if code.get("code") == "29463-7":
-              
-          #     value_quantity =  observation.get("valueQuantity",{})   #code de test pour récupérer poids et taille
-          #     value = value_quantity.get("value","Na")
-          #     unit = value_quantity.get("unit","Na")
-          #     bmi_data.append({"type" : 'weight',
-          #                           "value" : value,
-          #                           "unit" : unit})
-            
-          #   if code.get("code") == "8302-2":
-          #     value_quantity =  observation.get("valueQuantity",{})
-          #     value = value_quantity.get("value","Na")
-          #     unit = value_quantity.get("unit","Na")
-          #     bmi_data.append({"type" : 'height',
-          #                           "value" : value,
-          #                           "unit" : unit}) 
+        
           
           #ajouter les informations extraites à une liste de sortie
       else:
