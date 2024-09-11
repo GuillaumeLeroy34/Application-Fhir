@@ -355,7 +355,18 @@ def get_bmi_data(request):
   except Exception as err:
       print("une erreur est survenue; traceback")
       traceback.print_exc()  
-   
+  zipped_data = list(zip([datetime.strptime(date, "%Y-%m-%d") for date in bmi_data["dates"]], bmi_data["values"]))
+
+  # Step 2: Sort the zipped list by the dates (first item of the tuple)
+  sorted_data = sorted(zipped_data, key=lambda x: x[0])
+
+  # Step 3: Unzip the sorted list back into separate lists
+  sorted_dates, sorted_values = zip(*sorted_data)
+
+  # Step 4: Update the original bmi_data with the sorted values
+  bmi_data["dates"] = [date.strftime("%Y-%m-%d") for date in sorted_dates]  # Convert back to string
+  bmi_data["values"] = list(sorted_values)
+  print(bmi_data)
   return(JsonResponse(bmi_data))    
       
 def graphique_observation(request):
