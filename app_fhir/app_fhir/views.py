@@ -429,3 +429,17 @@ def graphique_observation(request):
 
 def bmi_chart_view(request):
     return render(request, 'app_fhir/bmichart.html')
+  
+  
+def compte(request):
+  if request.method == "post":
+    if 'confirm' in request.POST:
+      url = "https://fhir.alliance4u.io/api/patient{idpatient}".format(idpatient = request.user.idPatient)
+      try:
+        requests.delete(url)
+      except Exception as err:
+        print('une erreur est survenue')
+        traceback.print_exc()
+      return redirect('/')
+  return render(request,"app_fhir/compte.html", {"nom" : request.user.first_name, "prenom" : request.user.last_name}) 
+  

@@ -1,0 +1,7 @@
+<h1>compte de {{nom}}{{ prenom }}</h1>
+
+<form id= 'inscription' name = 'inscription' method = 'post'>
+{% csrf_token %}
+    <button type="submit" value="supprimer">suppression</button> 
+    {% comment %} on est obligés de faire un formulaire pour garantir la sécurité de la suppression (token csrf) {% endcomment %}
+</form>
