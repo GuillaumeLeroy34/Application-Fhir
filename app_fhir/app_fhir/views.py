@@ -12,6 +12,7 @@ from .models import Patient
 import json
 import traceback
 from django.http import JsonResponse
+from django.contrib import messages
 url = 'https://fhir.alliance4u.io/api/'
 #adresse de l'api qu'on utilise pour faire transiter les données
 
@@ -266,12 +267,16 @@ def register(request):
                             password=password  # Create the user with the password
                         )
                 user.save()
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                  login(request, user)
               else:
                       form.add_error(None, 'Failed to create patient. Please try again.')
-                      
+                    
             except requests.RequestException as e: 
               form.add_error(None, 'An error occurred while contacting the external API.')
               print(f"API Error: {e}")
+              
             return redirect('accueil')  
     else:
         form = CustomUserCreationForm()
@@ -289,7 +294,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
               login(request, user)
-              return redirect('/')     
+              return redirect('observations')     
     else:
 
         form = AuthenticationForm()
@@ -315,7 +320,7 @@ def get_bmi_data(request):
       target_patient_id = request.user.patientId
       filtered_observations = [
         observation for observation in data 
-        if observation.get("subject", {}).get("reference") == "Patient/66e061a899cb8a001240f383"
+        if observation.get("subject", {}).get("reference") == "Patient/{id}".format(id = target_patient_id)
       ]
       if filtered_observations:
         
@@ -350,6 +355,7 @@ def get_bmi_data(request):
   except Exception as err:
       print("une erreur est survenue; traceback")
       traceback.print_exc()  
+   
   return(JsonResponse(bmi_data))    
       
 def graphique_observation(request):
@@ -433,13 +439,17 @@ def bmi_chart_view(request):
   
 def compte(request):
   if request.method == "post":
+    print("la methode est")
     if 'confirm' in request.POST:
-      url = "https://fhir.alliance4u.io/api/patient{idpatient}".format(idpatient = request.user.idPatient)
+      print("confirm vrai")
+      url = "https://fhir.alliance4u.io/api/patient/{idpatient}".format(idpatient = request.user.idPatient)
       try:
         requests.delete(url)
       except Exception as err:
         print('une erreur est survenue')
         traceback.print_exc()
+      request.user.delete()
+      messages.success(request, 'User has been deleted successfully.')
       return redirect('/')
   return render(request,"app_fhir/compte.html", {"nom" : request.user.first_name, "prenom" : request.user.last_name}) 
   
