@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
 ]
-
+LOGIN_URL = '/connexion'
 MIDDLEWARE_CLASSES = (
   'gnu_terry_pratchett.middleware.ClacksMiddleware',
 )

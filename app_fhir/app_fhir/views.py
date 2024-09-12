@@ -13,6 +13,7 @@ import json
 import traceback
 from django.http import JsonResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 url = 'https://fhir.alliance4u.io/api/'
 #adresse de l'api qu'on utilise pour faire transiter les données
 
@@ -37,6 +38,7 @@ def call_external_api(request):
 #ID médecin f011 f010
    
 #post une observation: observer la doc, ne pas oublier d'inclure l'identifiant du patient connecté
+@login_required
 def envoi_observations(request):
   weightBool = False
   heightBool = False
@@ -425,7 +427,7 @@ def graphique_observation(request):
   
   
 
-
+@login_required
 def bmi_chart_view(request):
   url = "https://fhir.alliance4u.io/api/nutrition-order"
   payload =  {
@@ -491,6 +493,8 @@ def bmi_chart_view(request):
     
   return render(request, 'app_fhir/bmichart.html',{"notesItems" : notesItems})
   
+  
+@login_required
 def compte(request):
   if request.method == "POST":
     print("la methode est")
