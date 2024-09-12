@@ -40,6 +40,7 @@ def call_external_api(request):
 #post une observation: observer la doc, ne pas oublier d'inclure l'identifiant du patient connecté
 @login_required
 def envoi_observations(request):
+  envoi = False
   weightBool = False
   heightBool = False
   payloadWeight= {} #pour une raison qui m'échappe django veut absolument que tout soit déclaré en début de fonction
@@ -50,6 +51,7 @@ def envoi_observations(request):
   url = "https://fhir.alliance4u.io/api/observation"
   context = {}
   if request.method == 'POST':
+      envoi = True
        #booleen pour déterminer si les deux envois ont réussi
         
       poids = int(request.POST['poids'])

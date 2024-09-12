@@ -28,14 +28,16 @@
       <input type="submit" value="valider">
     </form>
   </div>
-
+{% if envoi %}
 <div class="reponse">
   {% if reponse %}
   <p class=reussi>L'envoi a été reussi</p>
   {% else %}
   <p class=echec>L'envoi a échoué. Veuillez reessayer.</p>
 {% endif %}
+
 </div>
+{% endif %}
 {%endblock%}
 </html>
 
